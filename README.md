@@ -16,7 +16,7 @@ after this you can start with basic operations:
   - send {payload: {setState: 'auto'}} : set automatic mode
 
   
-  - send {payload: {boost: '0'}} : keep the valve open for 30 minutes
+  - send {payload: {boost: '1'}} : keep the valve open for 30 minutes
   - send {payload: {boost: '0'}} : cancel boost mode
 
   - send {payload: {setTemperature: '10'}} : set the manual temperature to 10 degrees, 
