@@ -10,6 +10,7 @@ module.exports = function(RED) {
     node.device = global[config.eq3device]
 
     if (!node.device) {
+      // discoverByAddress => see line 117 of https://github.com/noble/noble-device/blob/master/lib/util.js
       eq3device.discoverByAddress(config.eq3device ,function(device) {
         node.device = device
         global[config.eq3device] = device
@@ -18,7 +19,11 @@ module.exports = function(RED) {
 
     node.intervalId = setInterval(() => {
       if(node.device) {
-        node.status({fill:"green",shape:"ring",text:"connected"});
+        if (node.device.connectedAndSetUp){
+            node.status({fill:"green",shape:"ring",text:"connected"});
+        } else {
+            node.status({fill:"orange",shape:"ring",text:"discovered"});
+        }
       } else {
         node.status({fill:"red",shape:"ring",text:"disconnected"});
       }
