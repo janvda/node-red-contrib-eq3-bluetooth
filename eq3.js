@@ -76,13 +76,15 @@ module.exports = function(RED) {
           node.device.setTemperature(msg.payload.setTemperature)
       }
 
+      // makes use of https://github.com/noble/noble-device#discovery-api
       if(!node.device) {
         RED.log.error('the specified device at ' + config.eq3device
         + ' has not been found yet')
         RED.log.warn('list of all available addressess will be retrieved...')
         eq3device.discoverAll((device) => {
-          if(!node.device || config.eq3device !==  device.address)
-            RED.log.warn('found device at address ' + device.address)
+          RED.log.warn('found device at address ' + device.address)
+          //if(!node.device || config.eq3device !==  device.address)
+          //  RED.log.warn('found device at address ' + device.address)
 
           if(!node.device && config.eq3device ===  device.address) {
             RED.log.info('device has found and configured!')
@@ -91,6 +93,7 @@ module.exports = function(RED) {
           }
         })
       }
+      // see also https://github.com/noble/noble-device#usage
       else if(!node.device.connectedAndSetUp)
         node.device.connectAndSetup()
         .then(() => node.setCommand())
