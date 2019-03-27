@@ -20,12 +20,12 @@ module.exports = function(RED) {
     node.intervalId = setInterval(() => {
       if(node.device) {
         if (node.device.connectedAndSetUp){
-            node.status({fill:"green",shape:"ring",text:"connected"});
+            node.status({fill:"green",shape:"dot",text:"connected"});
         } else {
-            node.status({fill:"orange",shape:"ring",text:"discovered"});
+            node.status({fill:"green",shape:"ring",text:"discovered"});
         }
       } else {
-        node.status({fill:"red",shape:"ring",text:"disconnected"});
+        node.status({fill:"red",shape:"ring",text:"not discovered"});
       }
     }, 10000)
 
