@@ -41,49 +41,25 @@ module.exports = function(RED) {
           .then(a => {
             msg.payload = a
             node.send(msg)
-          });
+          })
         }, 2000)
 
         if (typeof msg.payload !== 'object') return
 
-        if (msg.payload.getInfo) {
-           node.device.getInfo()
-           .then(a => {
-             msg.payload = a
-             node.send(msg)
-           });
-        }
-
         switch (msg.payload.setState) {
           case 'on':
             node.device.turnOn()
-            .then(a => {
-              msg.payload = a
-              node.send(msg)
-            });
             break;
           case 'off':
             node.device.turnOff()
-            .then(a => {
-              msg.payload = a
-              node.send(msg)
-            });
             break;
 
           case 'manual':
             node.device.manualMode()
-            .then(a => {
-              msg.payload = a
-              node.send(msg)
-            });
             break;
 
           case 'auto':
             node.device.automaticMode()
-            .then(a => {
-              msg.payload = a
-              node.send(msg)
-            });
             break;
           default:
             break;
@@ -92,17 +68,9 @@ module.exports = function(RED) {
         switch (msg.payload.boost) {
           case '0':
             node.device.setBoost(false)
-            .then(a => {
-              msg.payload = a
-              node.send(msg)
-            });
             break;
           case '1':
             node.device.setBoost(true)
-            .then(a => {
-              msg.payload = a
-              node.send(msg)
-            });
             break;
 
           default:
@@ -110,11 +78,7 @@ module.exports = function(RED) {
         }
 
         if (msg.payload.setTemperature)
-          node.device.setTemperature(msg.payload.setTemperature)            
-          .then(a => {
-            msg.payload = a
-            node.send(msg)
-          });
+          node.device.setTemperature(msg.payload.setTemperature)
       }
 
       // makes use of https://github.com/noble/noble-device#discovery-api
@@ -137,9 +101,9 @@ module.exports = function(RED) {
       // see also https://github.com/noble/noble-device#usage
       else if(!node.device.connectedAndSetUp)
         node.device.connectAndSetup()
-      // .then(() => node.setCommand())
-      //else
-      //  node.setCommand()
+        .then(() => node.setCommand())
+      else
+        node.setCommand()
     });
   }
   RED.nodes.registerType("eq3-bluetooth", eq3);
