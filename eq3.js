@@ -99,11 +99,11 @@ module.exports = function(RED) {
         })
       }
       // see also https://github.com/noble/noble-device#usage
-      else if(!node.device.connectedAndSetUp)
+      else if(!node.device.connectedAndSetUp) {
         RED.log.info("connectAndSetup device " + config.eq3device)
         node.device.connectAndSetup()
         .then(() => node.setCommand())
-      else
+      } else
         node.setCommand()
     });
   }
