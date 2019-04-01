@@ -21,10 +21,12 @@ module.exports = function(RED) {
 
         if(!node.device.connectedAndSetUp) {
           RED.log.info("connecting and setting up device " + config.eq3device + "...")
+          node.device.connectAndSetup()
+          /*
           node.device.connectAndSetup().then(() => {
             RED.log.info("device " + config.eq3device + " connected and setup")
             node.status({fill:"green",shape:"dot",text:"connected"})
-          })
+          }) */
         }
       }
     }
