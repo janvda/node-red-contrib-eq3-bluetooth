@@ -48,30 +48,35 @@ module.exports = function(RED) {
 
     node.on('input', function(msg) {
       node.setCommand = function() {
+        /*
         setTimeout(() => {
           node.device.getInfo()
           .then(a => {
             msg.payload = a
             node.send(msg)
           })
-        }, 2000)
+        }, 2000) */
 
         if (typeof msg.payload !== 'object') return
 
         switch (msg.payload.setState) {
           case 'on':
             node.device.turnOn()
+            .then(a => { msg.payload = a; node.send(msg) })
             break;
           case 'off':
             node.device.turnOff()
+            .then(a => { msg.payload = a; node.send(msg) })
             break;
 
           case 'manual':
             node.device.manualMode()
+            .then(a => { msg.payload = a; node.send(msg) })
             break;
 
           case 'auto':
             node.device.automaticMode()
+            .then(a => { msg.payload = a; node.send(msg) })
             break;
           default:
             break;
@@ -80,9 +85,11 @@ module.exports = function(RED) {
         switch (msg.payload.boost) {
           case '0':
             node.device.setBoost(false)
+            .then(a => { msg.payload = a; node.send(msg) })
             break;
           case '1':
             node.device.setBoost(true)
+            .then(a => { msg.payload = a; node.send(msg) })
             break;
 
           default:
@@ -91,10 +98,7 @@ module.exports = function(RED) {
 
         if (msg.payload.setTemperature)
           node.device.setTemperature(msg.payload.setTemperature)
-          .then(a => {
-            msg.payload = a
-            node.send(msg)
-          })
+          .then(a => { msg.payload = a; node.send(msg) })
       }
 
       // makes use of https://github.com/noble/noble-device#discovery-api
