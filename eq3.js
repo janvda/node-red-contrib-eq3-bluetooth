@@ -61,11 +61,11 @@ module.exports = function(RED) {
 
         switch (msg.payload.setState) {
           case 'on':
-            node.device.turnOn()
+            node.device.setTemperature(30)
             .then(a => { msg.payload = a; node.send(msg) })
             break;
           case 'off':
-            node.device.turnOff()
+            node.device.setTemperature(4.5)
             .then(a => { msg.payload = a; node.send(msg) })
             break;
 
