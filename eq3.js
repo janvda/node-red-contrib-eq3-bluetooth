@@ -14,12 +14,13 @@ module.exports = function(RED) {
       // discoverByAddress => see line 117 of https://github.com/noble/noble-device/blob/master/lib/util.js
       eq3device.discoverByAddress(config.eq3device ,function(device) {
         RED.log.info("device " + config.eq3device + " discovered")
+        node.status({fill:"green",shape:"ring",text:"discovered"})
         node.device = device
         global[config.eq3device] = device
 
         if(!node.device.connectedAndSetUp) {
           RED.log.info("connectAndSetup device " + config.eq3device)
-          node.device.connectAndSetup()
+          node.device.connectAndSetup().then(() => node.status({fill:"green",shape:"dot",text:"connected"}))
         }
       }
     }
