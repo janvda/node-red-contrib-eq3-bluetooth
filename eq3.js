@@ -12,6 +12,7 @@ module.exports = function(RED) {
     // at startup of the node we are discovering + connecting the device
     if (!node.device) {
       // discoverByAddress => see line 117 of https://github.com/noble/noble-device/blob/master/lib/util.js
+      RED.log.info("discovering device " + config.eq3device + " ...")
       eq3device.discoverByAddress(config.eq3device ,function(device) {
         RED.log.info("device " + config.eq3device + " discovered")
         node.status({fill:"green",shape:"ring",text:"discovered"})
@@ -19,8 +20,11 @@ module.exports = function(RED) {
         global[config.eq3device] = device
 
         if(!node.device.connectedAndSetUp) {
-          RED.log.info("connectAndSetup device " + config.eq3device)
-          node.device.connectAndSetup().then(() => node.status({fill:"green",shape:"dot",text:"connected"}))
+          RED.log.info("connecting and setting up device " + config.eq3device + "...")
+          node.device.connectAndSetup().then(() => {
+            RED.log.info("device " + config.eq3device + " connected and setup")
+            node.status({fill:"green",shape:"dot",text:"connected"}))
+          }
         }
       }
     }
