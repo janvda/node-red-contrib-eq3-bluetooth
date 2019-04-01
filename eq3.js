@@ -12,17 +12,17 @@ module.exports = function(RED) {
     // at startup of the node we are discovering + connecting the device
     if (!node.device) {
       // discoverByAddress => see line 117 of https://github.com/noble/noble-device/blob/master/lib/util.js
-      RED.log.info("discovering device " + config.eq3device + " ...")
+      RED.log.info("discovering eQ-3 device " + config.eq3device + " ...")
       eq3device.discoverByAddress(config.eq3device ,function(device) {
-        RED.log.info("device " + config.eq3device + " discovered")
+        RED.log.info("eQ-3 device " + config.eq3device + " discovered")
         node.status({fill:"green",shape:"ring",text:"discovered"})
         node.device = device
         global[config.eq3device] = device
 
         if(!node.device.connectedAndSetUp) {
-          RED.log.info("connecting and setting up device " + config.eq3device + "...")
+          RED.log.info("connecting and setting up eQ-3 device " + config.eq3device + "...")
           node.device.connectAndSetup().then(() => {
-            RED.log.info("device " + config.eq3device + " connected and setup")
+            RED.log.info("eQ-3 device " + config.eq3device + " connected and setup")
             node.status({fill:"green",shape:"dot",text:"connected"})
           })
         }
@@ -95,7 +95,7 @@ module.exports = function(RED) {
 
       // makes use of https://github.com/noble/noble-device#discovery-api
       if(!node.device) {
-        RED.log.error('the specified device at ' + config.eq3device
+        RED.log.error('the specified eQ-3 device at ' + config.eq3device
         + ' has not been found yet')
         RED.log.warn('list of all available addressess will be retrieved...')
         eq3device.discoverAll((device) => {
@@ -104,7 +104,7 @@ module.exports = function(RED) {
           //  RED.log.warn('found device at address ' + device.address)
 
           if(!node.device && config.eq3device ===  device.address) {
-            RED.log.info('device has found and configured!')
+            RED.log.info('eQ-3 device found and configured!')
             global[config.eq3device] = device
             node.device = global[config.eq3device]
           }
@@ -112,7 +112,7 @@ module.exports = function(RED) {
       }
       // see also https://github.com/noble/noble-device#usage
       else /* if(!node.device.connectedAndSetUp) {
-        RED.log.info("connectAndSetup device " + config.eq3device)
+        RED.log.info("connectAndSetup eQ-3 device " + config.eq3device)
         node.device.connectAndSetup()
         .then(() => node.setCommand())
       } else */
