@@ -91,6 +91,10 @@ module.exports = function(RED) {
 
         if (msg.payload.setTemperature)
           node.device.setTemperature(msg.payload.setTemperature)
+          .then(a => {
+            msg.payload = a
+            node.send(msg)
+          })
       }
 
       // makes use of https://github.com/noble/noble-device#discovery-api
