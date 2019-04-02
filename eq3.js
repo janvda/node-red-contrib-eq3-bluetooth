@@ -59,8 +59,9 @@ module.exports = function(RED) {
 
         if (typeof msg.payload !== 'object') return
 
-        if (msg.payload =="getInfo") {
-          RED.log.info("node.device.getInfo()...");
+        RED.log.warn("msg.payload = " + msg.payload);
+        if (msg.payload == "getInfo") {
+          RED.log.warn("node.device.getInfo()...");
           node.device.getInfo()
           .then(a => { msg.payload = a; node.send(msg) })
         }
