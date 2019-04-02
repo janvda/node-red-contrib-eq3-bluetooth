@@ -108,12 +108,9 @@ module.exports = function(RED) {
         + ' has not been found yet')
         RED.log.warn('list of all available addressess will be retrieved...')
         eq3device.discoverAll((device) => {
-          RED.log.warn('found device at address ' + device.address)
-          //if(!node.device || config.eq3device !==  device.address)
-          //  RED.log.warn('found device at address ' + device.address)
-
+          RED.log.info('found device at address ' + device.address)
           if(!node.device && config.eq3device ===  device.address) {
-            RED.log.info('eQ-3 device found and configured!')
+            RED.log.info('eQ-3 device ' + config.eq3device + ' found and configured!')
             global[config.eq3device] = device
             node.device = global[config.eq3device]
           }
