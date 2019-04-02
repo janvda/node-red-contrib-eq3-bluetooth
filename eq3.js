@@ -57,14 +57,12 @@ module.exports = function(RED) {
           })
         }, 2000) */
 
-        if (typeof msg.payload !== 'object') return
-
-        RED.log.warn("msg.payload = " + msg.payload);
-        if (msg.payload == "getInfo") {
-          RED.log.warn("node.device.getInfo()...");
+        if (msg.payload === "getInfo") {
           node.device.getInfo()
           .then(a => { msg.payload = a; node.send(msg) })
         }
+
+        if (typeof msg.payload !== 'object') return
 
         switch (msg.payload.setState) {
           case 'on':
