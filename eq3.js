@@ -47,18 +47,14 @@ module.exports = function(RED) {
     })
 
     node.on('input', function(msg) {
+      // node.setCommand is the function that is called at the end of the node.on() method
       node.setCommand = function() {
-        /*
-        setTimeout(() => {
-          node.device.getInfo()
-          .then(a => {
-            msg.payload = a
-            node.send(msg)
-          })
-        }, 2000) */
-
+        // when msg.payload is any string or a number (so not an object) then 
+        // it will send a messages with the status of the eq3 device.
+        //
+        // Note that all other commands - see further below - will also send a message with the status
+        // of the eq3 device after executing the command.
         if (typeof msg.payload !== 'object') {
-          RED.log.info("msg.payload" + msg.payload)
           node.device.getInfo()
           .then(a => { msg.payload = a; node.send(msg) })
           return
