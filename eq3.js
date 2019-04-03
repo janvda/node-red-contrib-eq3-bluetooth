@@ -120,7 +120,10 @@ module.exports = function(RED) {
       else if(!node.device.connectedAndSetUp) {
         RED.log.info("Reconnecting and setup of eQ-3 device " + config.eq3device)
         node.device.connectAndSetup()
-        .then(() => node.setCommand())
+        .then(() => {
+              RED.log.info("...eQ-3 device " + config.eq3device + " connected and setup.")
+              node.setCommand()
+        })
       } else
         node.setCommand()
     });
